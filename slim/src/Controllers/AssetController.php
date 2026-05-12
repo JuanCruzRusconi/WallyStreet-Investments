@@ -51,6 +51,49 @@ class AssetController {
 
     }
 
+    // PUT ACTIVOS
+    public function putAssets(Request $request, Response $response) {
+        
+        $user = $request->getAttribute('user');
+
+        if(!$user) {
+            $response->getBody()->write(json_encode(["error" => "No está autorizado para realizar ésta operación."]));
+            return $response->withStatus(401);
+        }
+        if($user['is_admin'] !== 1) {
+            $response->getBody()->write(json_encode(["error" => "Acceso denegado. Debe ser admin para realizar esta operación."]));
+            return $response->withStatus(403);
+        }
+
+        $pdo = Database::PDO();
+
+        $stmt = $pdo->query("SELECT id, current_price FROM assets");
+
+        $assets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($assets as $asset) {
+            $currentPrice = (float)$asset['current_price'];
+
+            // VALOR ALEATORIO ENTRE -15% Y 15%
+            $variation = rand(-15, 15);
+
+            $newPrice = $currentPrice + ($currentPrice * ($variation / 100));
+            $newPrice = max(0, round($newPrice, 2));
+
+            $update = $pdo->prepare("UPDATE assets SET current_price = ? WHERE id = ?");
+            $update->execute([$newPrice, $asset['id']]);
+        }
+
+        $stmt = $pdo->query("SELECT * FROM assets");
+
+        $response->getBody()->write(json_encode(["mensaje" => 
+            "Precios actualizados correctamente.",
+            "assets" => $stmt->fetchAll()
+        ]));
+        return $response->withStatus(200);
+
+    }
+
     // GET HISTORIAL ACTIVO
     public function getAssetHistory(Request $request, Response $response, $args) {
         
