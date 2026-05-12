@@ -12,33 +12,6 @@ use Firebase\JWT\Key;
 
 class AuthMiddleware {
 
-    // AUTH MDDLW JWT
-    // public function __invoke(Request $request, $handler) {
-                
-    //     $authHeader = $request->getHeaderLine('Authorization');
-
-    //     if(!$authHeader) {
-    //         $response = new Response();
-    //         $response->getBody()->write(json_encode(["error" => "Se requiere el token para la petición."]));
-    //         return $response->withStatus(401);
-    //     }
-
-    //     $token = trim(str_replace('Bearer', '', $authHeader));
-
-    //     try {
-    //         $decoded = JWT::decode($token, new Key(SECRET_KEY, 'HS256'));
-    //         // GUARDAR USER EN REQUEST
-    //         $request = $request->withAttribute('user', $decoded->data);
-    //     } catch (Exception $e) {
-    //         $response = new Response();
-    //         $response->getBody()->write(json_encode(["error" => "El token es inválido"]));
-    //         return $response->withStatus(401);
-    //     }
-
-    //     return $handler->handle($request);
-    // };
-
-    // AUTH MDDLW SESSION
     public function __invoke(Request $request, $handler) {
         $authHeader = $request->getHeaderLine('Authorization');
 
@@ -66,14 +39,17 @@ class AuthMiddleware {
         // VALIDAR EXPIRACIÓN
         if($user['token_expired_at'] < date('Y-m-d H:i:s')) {
             $response = new Response();
-            $response->getBody()->write(json_encode(["error" => "El toekn ha expirado."]));
+            $response->getBody()->write(json_encode(["error" => "El token ha expirado."]));
             return $response->withStatus(401);
         }
+
+        // EXTENSION DE SESION DE USUARIO
+        $stmt = $pdo->prepare("UPDATE users SET token_expired_at = DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE id = ?");
+        $stmt->execute([$user['id']]);
 
         // GUARDAR USER EN REQUEST
         $request = $request->withAttribute('user', $user);
 
         return $handler->handle($request);
     }
-
-}
+};

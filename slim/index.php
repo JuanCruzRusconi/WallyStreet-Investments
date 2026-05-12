@@ -30,14 +30,14 @@ $app->add( function ($request, $handler) {
     ;
 });
 
-// SIN COMPOSER
+
 require __DIR__ . '/src/Config/db.php';
 (require __DIR__ . '/src/Middlewares/AuthMiddleware.php');
 (require __DIR__ . '/src/Routes/routes.php')($app);
 (require __DIR__ . '/src/Controllers/AuthController.php');
 (require __DIR__ . '/src/Controllers/UserController.php');
 (require __DIR__ . '/src/Controllers/AssetsController.php');
-// (require __DIR__ . '/src/Controllers/OperationsController.php');
-// (require __DIR__ . '/src/Controllers/PortfolioController.php');
+(require __DIR__ . '/src/Controllers/TradeController.php');
+(require __DIR__ . '/src/Controllers/PortfolioController.php');
 
 $app->run();
