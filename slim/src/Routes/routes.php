@@ -2,17 +2,7 @@
 
 use Slim\App;
 
-// JWT
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-
 return function(App $app) {
-
-    // TEST
-    $app->get('/test', function($request, $response) {
-        $response->getBody()->write(json_encode(["mensaje" => "Funciona correctamente."]));
-        return $response->withStatus(200);
-    });
 
     // RUTAS AUTENTICACION
     (require __DIR__ . '/AuthRoutes.php')($app);
@@ -20,7 +10,16 @@ return function(App $app) {
     // RUTAS USUARIOS
     (require __DIR__ . '/UserRoutes.php')($app);
 
+    // RUTAS ACTIVOS
     (require __DIR__ . '/AssetRoutes.php')($app);
     
+    // RUTAS OPERACIONES
+    (require __DIR__ . '/TradeRoutes.php')($app);
+
+    // RUTAS PORTFOLIO
+    (require __DIR__ . '/PortfolioRoutes.php')($app);
+
+    // RUTAS TRANSACCIONES
+    (require __DIR__ . '/TransactionRoutes.php')($app);
 
 };
