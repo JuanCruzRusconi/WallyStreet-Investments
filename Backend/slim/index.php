@@ -10,8 +10,6 @@ require __DIR__ . '/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
-define('SECRET_KEY', $_ENV['JWT_SECRET']);
-
 $app = AppFactory::create();
 
 // PARSEO DEL BODY
