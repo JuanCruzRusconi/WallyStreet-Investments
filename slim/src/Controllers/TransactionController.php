@@ -43,7 +43,7 @@ class TransactionController {
         // FILTRO ASSET_ID
         if($assetId !== null) {
 
-            if(!is_numeric($assetid)) {
+            if(!is_numeric($assetId)) {
                 $response->getBody()->write(json_encode([
                     "error" => "ID de activo inválido."
                 ]));

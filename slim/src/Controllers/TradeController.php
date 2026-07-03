@@ -19,12 +19,12 @@ class TradeController {
 
         if(!is_numeric($assetId)) {
             $response->getBody()->write(json_encode(["error" => "ID de activo inválido."]));
-            return $response->withStatus(400);
+            return $response->withStatus(409);
         }
 
         if(!is_numeric($quantity) || $quantity <= 0) {
             $response->getBody()->write(json_encode(["error" => "La cantidad debe ser mayor a 0."]));
-            return $response->withStatus(400);
+            return $response->withStatus(409);
         }
 
         $quantity = (float)$quantity;
@@ -44,7 +44,7 @@ class TradeController {
                 $pdo->rollback();
 
                 $response->getBody()->write(json_encode(["error" => "Activo no encontrado."]));
-                return $response->withStatus(404);
+                return $response->withStatus(409);
             }
 
             $currentPrice = (float)$asset['current_price'];
@@ -118,12 +118,12 @@ class TradeController {
 
         if(!is_numeric($assetId)) {
             $response->getBody()->write(json_encode(["error" => "ID de activo inválido."]));
-            return $response->withStatus(400);
+            return $response->withStatus(409);
         }
 
         if(!is_numeric($quantity) || $quantity <= 0) {
             $response->getBody()->write(json_encode(["error" => "La cantidad debe ser mayor a 0."]));
-            return $response->withStatus(400);
+            return $response->withStatus(409);
         }
 
         $quantity = (float)$quantity;
@@ -143,7 +143,7 @@ class TradeController {
                 $pdo->rollback();
 
                 $response->getBody()->write(json_encode(["error" => "Activo no encontrado."]));
-                return $response->withStatus(404);
+                return $response->withStatus(409);
             }
 
             // VERIFICAR PORTFOLIO
@@ -157,7 +157,7 @@ class TradeController {
                 $pdo->rollBack();
 
                 $response->getBody()->write(json_encode(["error" => "No se encuentra este activo en el portfolio."]));
-                return $response->withStatus(404);
+                return $response->withStatus(409);
             }
 
             // VALIDAR CANTIDAD

@@ -48,7 +48,8 @@ class AuthController {
             "usuario" => [
                 "id" => $user['id'],
                 "nombre" => $user['name'],
-                "email" => $user['email']
+                "email" => $user['email'],
+                "admin" => $user['is_admin']
             ],
             "token" => $token,
             "expira" => $exp
