@@ -52,7 +52,7 @@ class TransactionController {
             }
 
             $sql .= " AND asset_id = ?";
-            $values[] = $assetid;
+            $values[] = $assetId;
         }
 
         $sql .= " ORDER BY transaction_date DESC";
