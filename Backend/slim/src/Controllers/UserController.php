@@ -168,8 +168,8 @@ class UserController {
             return $response->withStatus(400);
         }
 
-        // VALIDACION DEL ID CON JWT
-        if((int)$id !== $userId) {
+        // VALIDACION DEL ID
+        if($user['is_admin'] != 1 && (int)$id !== $userId) {
             $response->getBody()->write(json_encode(["error" => "Debe ser el usuario logueado para hacer la actualización."]));
             return $response->withStatus(403);
         }
