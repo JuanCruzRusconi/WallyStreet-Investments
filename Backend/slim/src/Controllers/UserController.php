@@ -32,6 +32,15 @@ class UserController {
     public function getUsers(Request $request, Response $response) {
 
         $user = $request->getAttribute('user');
+
+        // VALIDAR QUE SEA ADMIN
+        if ((int)$user['is_admin'] !== 1) {
+            $response->getBody()->write(json_encode([
+                "error" => "No tiene permisos para acceder a este recurso."
+            ]));
+            return $response->withStatus(403);
+        }
+    
         // CONEXIÓN
         $pdo = Database::PDO();
 
@@ -57,12 +66,20 @@ class UserController {
         // OBTENER ID
         $id = $args['id'];
 
+        $user = $request->getAttribute('user');
+
         // VALIDACIÓN DE ID;
         if(!is_numeric($id)) {
             $response->getBody()->write(json_encode(["error" => "ID inválido."]));
             return $response->withStatus(400);
         }
-        //$pdo = new PDO("sql:host=db;dbname=seminariophp", "root", "root");
+
+        // VALIDAR ID AL DE LA SESION O ADMIN
+        if((int)$user['id'] !== (int)$id && (int)$user['is_admin'] !== 1) {
+            $response->getBody()->write(json_encode(["error" => "No tiene los permisos para acceder a otro usuario."]));
+            return $response->withStatus(403);
+        }
+
         $pdo = Database::PDO();
 
         //$stmt = $pdo->prepare("SELECT id, name, email, balance FROM users WHERE id = ?");

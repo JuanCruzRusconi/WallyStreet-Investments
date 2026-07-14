@@ -15,7 +15,8 @@ return function(App $app) {
         ->add(new AuthMiddleware());
     
     // GET USER ID
-    $app->get('/users/{id}', [UserController::class, 'getUsersId']);
+    $app->get('/users/{id}', [UserController::class, 'getUsersId'])
+        ->add(new AuthMiddleware());
 
     // POST USERS
     $app->post('/users', [UserController::class, 'postUsers']);
