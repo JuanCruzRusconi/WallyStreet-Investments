@@ -36,7 +36,11 @@ class UserController {
         $pdo = Database::PDO();
 
         // QUERY
-        $stmt = $pdo->query("SELECT id, name, balance FROM users");
+        $stmt = $pdo->query("SELECT users.id, users.name, users.balance, users.balance + 
+        COALESCE(SUM(p.quantity * a.current_price), 0) AS total_value 
+        FROM users LEFT JOIN portfolio p ON p.user_id = users.id
+        LEFT JOIN assets a ON a.id = p.asset_id
+        GROUP BY users.id, users.name, users.balance");
 
         // FETCH
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -61,7 +65,12 @@ class UserController {
         //$pdo = new PDO("sql:host=db;dbname=seminariophp", "root", "root");
         $pdo = Database::PDO();
 
-        $stmt = $pdo->prepare("SELECT id, name, email, balance FROM users WHERE id = ?");
+        //$stmt = $pdo->prepare("SELECT id, name, email, balance FROM users WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT u.id, u.name, u.email, u.balance, 
+        COALESCE(SUM(p.quantity * a.current_price), 0) AS total_value
+        FROM users u LEFT JOIN portfolio p ON p.user_id = u.id
+        LEFT JOIN assets a ON a.id = p.asset_id
+        WHERE u.id = ? GROUP BY u.id, u.name, u.email, u.balance");
         $stmt->execute([$id]);
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
