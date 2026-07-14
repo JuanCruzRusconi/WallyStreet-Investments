@@ -1,0 +1,22 @@
+.header_container {
+    height: 5rem;
+    width: 100dvw;
+    display: flex;
+    flex-direction: row;
+    background-color: #16171d;
+    border-bottom: 1px solid #2ca9bc;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.brand_text {
+    font-size: 1.5rem;
+    color: aliceblue;
+    text-decoration: none;
+}
+
+.brand_text:hover {
+    color: #2ca9bc;
+}
