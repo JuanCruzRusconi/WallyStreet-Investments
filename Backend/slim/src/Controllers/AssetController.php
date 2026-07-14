@@ -117,7 +117,7 @@ class AssetController {
         $history = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if(empty($history)) {
-            $response->getBody()->wirte(json_encode(["error" => "No existen movimientos de ese activo."]));
+            $response->getBody()->write(json_encode(["error" => "No existen movimientos de ese activo."]));
             return $response->withStatus(404);
         }
 
