@@ -1,0 +1,91 @@
+.navBar_container {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+}
+
+.navBar_menu {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.navBar_item {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.link {
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: aliceblue;
+}
+
+.link_active {
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: #2ca9bc;
+}
+
+.navBar_logout {
+    height: 40px;
+    width: 130px;
+    border: 2px solid #2ca9bc;
+    background-color: #1e293b;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: aliceblue;
+    cursor: pointer;
+}
+
+.navBar_logout:hover {
+    background-color: #2ca9bc;
+}
+
+.navBar_logout_buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.navBar_login_button {
+    font-size: 1rem;
+    font-weight: 700;
+    height: 40px;
+    width: 125px;
+    background-color: rgba(44, 169, 188, 0.85);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.navBar_login_button:hover {
+    background-color: #2ca9bc;
+}
+
+.navBar_register_button {
+    font-size: 1rem;
+    font-weight: 700;
+    height: 40px;
+    width: 125px;
+    background-color: #1e293b;
+    border: 2px solid #2ca9bc;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.navBar_register_button:hover {
+    background-color: #334155;
+    opacity: 1;
+}
+
+.button_text {
+    text-decoration: none;
+    color: aliceblue;
+}
